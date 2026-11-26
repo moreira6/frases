@@ -1,13 +1,101 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#fff7ed" />
-    <title>Formando Frases com Imagens</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff7ed">
+<title>Formando Frases com Imagens</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{font-family:Nunito,Arial,sans-serif;color:#26324a;background:#fff8ef}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(circle at 12% 10%,#ffefd8 0,transparent 25%),radial-gradient(circle at 92% 20%,#e4f5ff 0,transparent 22%),#fff9f1}
+button{font:inherit;cursor:pointer}.page{max-width:1160px;margin:auto;padding:22px 28px 30px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.brand{display:flex;align-items:center;gap:12px}.brand-icon{display:grid;place-items:center;width:48px;height:48px;background:#ffdf9f;border-radius:15px;font-size:25px}
+.brand b{display:block;font-size:14px;letter-spacing:1.2px}.brand small{display:block;color:#8790a0;font-size:12px;font-weight:700}
+.score{display:flex;align-items:center;gap:9px;background:white;border:1px solid #f1e7da;padding:8px 16px;border-radius:16px}.score>span{font-size:24px}.score b{display:block;font-size:20px;line-height:20px}.score small{font-size:9px;letter-spacing:1px;color:#9299a6;font-weight:900}
+.hero{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(115deg,#ff914d,#ffb35b);border-radius:25px;padding:27px 38px;color:white;box-shadow:0 12px 25px #f28a3a30;overflow:hidden}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 0 8px;opacity:.85}.hero h1{font-size:clamp(29px,4vw,43px);line-height:1.04;margin:0;font-weight:900;letter-spacing:-1px}.hero h1 span{color:#fff3bd}.intro{font-size:14px;margin:12px 0 0;max-width:480px;font-weight:700;opacity:.95}.hero-art{font-size:82px;transform:rotate(-8deg);padding:0 24px}
+.progress-area{margin:24px 2px 20px}.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#7b8493;margin-bottom:9px}.progress-label b{letter-spacing:1px;color:#4b5870}.track{height:9px;background:#eee7de;border-radius:20px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#64c7a4,#91d98b);border-radius:20px;transition:width .3s}
+.game-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px;align-items:stretch}.panel{background:#fff;border:1px solid #f0e9df;border-radius:22px;padding:22px;box-shadow:0 8px 25px #53402a0a}
+.section-heading{display:flex;align-items:center;gap:11px;margin-bottom:17px}.number{display:grid;place-items:center;background:#fff0d9;color:#e98735;width:34px;height:34px;border-radius:11px;font-weight:900;font-size:13px}.section-heading b{display:block;font-size:13px;letter-spacing:.8px}.section-heading small{display:block;color:#9aa1ad;font-size:11px;font-weight:700;margin-top:1px}
+.picture{height:270px;border-radius:17px;background:linear-gradient(#dff3ff 0%,#effaff 70%,#c9edb5 70%,#b7e39e 100%);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.scene-emoji{font-size:clamp(76px,10vw,112px);z-index:2;filter:drop-shadow(0 7px 3px #31455a1a);text-align:center;line-height:1.4;max-width:90%}
+.sun{position:absolute;right:20px;top:15px;font-size:30px}.cloud{position:absolute;font-size:31px;opacity:.8}.cloud-one{left:24px;top:26px}.cloud-two{right:100px;top:56px;font-size:23px}.ground{position:absolute;bottom:-25px;left:-5%;width:110%;height:60px;background:#9bd77f;border-radius:50%}
+.hint{display:flex;gap:10px;align-items:center;background:#fff8e9;border:1px solid #f9eacb;padding:11px 13px;border-radius:13px;margin-top:15px}.hint span{font-size:20px}.hint p{margin:0;color:#6e7480;font-size:12px}.hint b{color:#d17b2e}
+.answer-label,.word-bank-title b{font-size:10px;letter-spacing:1.2px;color:#7b8493;font-weight:900}
+.answer-zone{min-height:105px;margin-top:9px;padding:13px;border:2px dashed #d8dce4;border-radius:15px;background:#fafbfc;display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:center;gap:8px}
+.answer-zone.filled{border-color:#9bd7bd;background:#f5fcf8}.placeholder{font-size:12px;color:#a8afba;font-weight:700}.empty-slot{width:54px;height:34px;border:1px dashed #d8dde5;border-radius:9px}
+.word{border:0;border-radius:10px;padding:9px 13px;font-weight:900;font-size:14px;box-shadow:0 3px 0 #00000012;transition:transform .15s;user-select:none}.word:hover{transform:translateY(-2px)}.bank-word{background:#e9f2ff;color:#42699d;border:1px solid #d8e7fc}.answer-word{background:#e3f7ec;color:#267a57;border:1px solid #c9eedb;cursor:grab}
+.word-bank-title{display:flex;justify-content:space-between;align-items:center;margin:20px 0 9px}.word-bank-title small{font-size:10px;color:#a0a7b2;font-weight:700}.word-bank{min-height:65px;padding:12px;background:#fbf8f4;border:1px solid #f0e9df;border-radius:14px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:9px}.all-used{font-size:12px;color:#8b9a91;font-weight:700}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.primary,.secondary{border:0;border-radius:12px;padding:11px 17px;font-size:12px;font-weight:900;transition:.15s}.primary{background:#ff914d;color:white;box-shadow:0 4px 0 #dc7133}.primary:hover:not(:disabled){transform:translateY(-2px)}.primary:disabled{opacity:.42;cursor:not-allowed;box-shadow:none}.secondary{background:#f0f2f5;color:#687386}.secondary:disabled{opacity:.45;cursor:not-allowed}
+.feedback{padding:11px 13px;border-radius:12px;font-size:12px;font-weight:900;margin-top:13px;text-align:center}.success{background:#e6f8ed;color:#258253}.tryagain{background:#fff2df;color:#a96a23}.tap-note{font-size:10px;color:#a0a7b2;text-align:center;margin:13px 0 0}
+footer{text-align:center;color:#a0a5ad;font-size:11px;font-weight:800;margin-top:22px}.finish{max-width:520px;margin:10vh auto;text-align:center;padding:45px 30px}.trophy{font-size:76px}.finish h1{font-size:38px;margin:5px 0;color:#293750}.finish p{color:#828b9a}.final-score{display:inline-flex;flex-direction:column;align-items:center;background:#fff2d9;border-radius:20px;padding:15px 35px;margin:15px}.final-score strong{font-size:42px;color:#e58b37;line-height:1}.final-score span{font-size:11px;color:#9d7b4c;font-weight:900;text-transform:uppercase}.finish .small{font-size:12px;margin-bottom:22px}
+@media(max-width:760px){.page{padding:15px 13px 25px}.topbar{margin-bottom:20px}.hero{padding:23px 22px}.hero-art{font-size:58px;padding:0 2px}.game-grid{grid-template-columns:1fr}.panel{padding:17px}.picture{height:230px}.hero h1{font-size:32px}.intro{font-size:12px}.actions{flex-wrap:wrap}.actions button{flex:1}.word-bank-title{gap:8px}.word-bank-title small{font-size:9px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const challenges = [
+["⚽","O menino chuta a bola.",["O","menino","chuta","a","bola"],"Observe o que o menino está fazendo."],
+["🐱🥛","O gato bebe leite.",["O","gato","bebe","leite"],"Quem está bebendo leite?"],
+["🐶💤","O cachorro está dormindo.",["O","cachorro","está","dormindo"],"O que o cachorro está fazendo?"],
+["👧🍎","A menina come uma maçã.",["A","menina","come","uma","maçã"],"Qual fruta a menina está comendo?"],
+["🐦🌳","O pássaro está na árvore.",["O","pássaro","está","na","árvore"],"Onde está o pássaro?"],
+["👦📚","O menino lê um livro.",["O","menino","lê","um","livro"],"O que o menino está lendo?"],
+["🐰🥕","O coelho come cenoura.",["O","coelho","come","cenoura"],"Qual é a comida do coelho?"],
+["🌞🌻","O sol ilumina as flores.",["O","sol","ilumina","as","flores"],"O que o sol ilumina?"],
+["👧🎨","A menina pinta um desenho.",["A","menina","pinta","um","desenho"],"O que a menina está fazendo?"],
+["🚲👦","O menino anda de bicicleta.",["O","menino","anda","de","bicicleta"],"Como o menino está passeando?"],
+["🐸💧","O sapo pula na lagoa.",["O","sapo","pula","na","lagoa"],"Onde o sapo pula?"],
+["👩🍰","A mamãe faz um bolo.",["A","mamãe","faz","um","bolo"],"O que a mamãe está preparando?"],
+["🐝🌼","A abelha visita a flor.",["A","abelha","visita","a","flor"],"Quem visita a flor?"],
+["👦🪁","O menino empina uma pipa.",["O","menino","empina","uma","pipa"],"O que está no céu?"],
+["🐢🌿","A tartaruga come folhas.",["A","tartaruga","come","folhas"],"O que a tartaruga come?"],
+["🚗🛣️","O carro vermelho está na rua.",["O","carro","vermelho","está","na","rua"],"De que cor é o carro?"],
+["👧🌧️☂️","A menina usa um guarda-chuva.",["A","menina","usa","um","guarda-chuva"],"O que protege a menina da chuva?"],
+["🐟🌊","O peixe nada no mar.",["O","peixe","nada","no","mar"],"Onde o peixe nada?"],
+["👨‍🍳🥣","O cozinheiro prepara a sopa.",["O","cozinheiro","prepara","a","sopa"],"O que o cozinheiro prepara?"],
+["🦋🌸","A borboleta pousa na flor.",["A","borboleta","pousa","na","flor"],"Onde a borboleta pousa?"],
+["👧🧸","A menina abraça seu ursinho.",["A","menina","abraça","seu","ursinho"],"O que a menina está abraçando?"],
+["🐄🌱","A vaca come capim.",["A","vaca","come","capim"],"O que a vaca come?"],
+["👦🪥","O menino escova os dentes.",["O","menino","escova","os","dentes"],"O que devemos escovar todos os dias?"],
+["🚂🌳","O trem passa pela floresta.",["O","trem","passa","pela","floresta"],"Por onde o trem está passando?"],
+["👧🌙⭐","A menina observa as estrelas.",["A","menina","observa","as","estrelas"],"O que brilha no céu à noite?"]
+];
+let index=0, score=0, placed=[], pool=[], checked=false, message="", dragged=null, completed=false;
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function initRound(){placed=[];pool=shuffle(challenges[index][2]);checked=false;message="";dragged=null;render()}
+function addWord(word,i){if(checked)return;placed.push(word);pool.splice(i,1);render()}
+function removeWord(i){if(checked)return;pool.push(placed.splice(i,1)[0]);render()}
+function verify(){if(placed.length!==challenges[index][2].length)return;checked=true;if(placed.join(" ")===challenges[index][2].join(" ")){score+=10;message="Muito bem! Você formou a frase corretamente! 🎉"}else message="Quase lá! Veja a dica e tente novamente.";render()}
+function next(){if(index===24){completed=true;render();return}index++;initRound()}
+function restart(){index=0;score=0;completed=false;initRound()}
+function dragStart(e,word,from,i){dragged={word,from,index:i};e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",word)}
+function drop(e,target){e.preventDefault();if(!dragged||checked)return;if(target==="answer"&&dragged.from==="pool")addWord(dragged.word,dragged.index);else if(target==="pool"&&dragged.from==="answer")removeWord(dragged.index);dragged=null}
+function render(){
+const root=document.getElementById("app");
+if(completed){root.innerHTML=`<main class="page"><section class="finish panel"><div class="trophy">🏆</div><p class="eyebrow">MISSÃO CONCLUÍDA</p><h1>Você é demais!</h1><p>Você chegou ao final dos 25 desafios de formação de frases.</p><div class="final-score"><strong>${score}</strong><span>pontos</span></div><p class="small">Continue praticando para ficar cada vez melhor!</p><button class="primary" onclick="restart()">Jogar novamente ↻</button></section></main>`;return}
+const c=challenges[index],done=placed.length===c[2].length,correct=placed.join(" ")===c[2].join(" ");
+root.innerHTML=`<main class="page">
+<header class="topbar"><div class="brand"><span class="brand-icon">🧩</span><div><b>PALAVRAS EM AÇÃO</b><small>Jogo de formar frases</small></div></div><div class="score"><span>⭐</span><div><b>${score}</b><small>PONTOS</small></div></div></header>
+<section class="hero"><div><p class="eyebrow">DESAFIO DE ALFABETIZAÇÃO</p><h1>Formando frases<br><span>com imagens!</span></h1><p class="intro">Observe a imagem e arraste as palavras para montar uma frase.</p></div><div class="hero-art">📚✨</div></section>
+<section class="progress-area"><div class="progress-label"><b>SEU PROGRESSO</b><span>Desafio ${index+1} de 25</span></div><div class="track"><div class="fill" style="width:${((index+(checked&&correct?1:0))/25)*100}%"></div></div></section>
+<section class="game-grid">
+<article class="panel"><div class="section-heading"><span class="number">01</span><div><b>OBSERVE A IMAGEM</b><small>O que está acontecendo?</small></div></div>
+<div class="picture" role="img" aria-label="${c[1]}"><div class="sun">☀️</div><div class="scene-emoji">${c[0]}</div><div class="cloud cloud-one">☁️</div><div class="cloud cloud-two">☁️</div><div class="ground"></div></div>
+<div class="hint"><span>💡</span><p><b>Dica:</b> ${c[3]}</p></div></article>
+<article class="panel"><div class="section-heading"><span class="number">02</span><div><b>MONTE A FRASE</b><small>Arraste as palavras para os espaços</small></div></div>
+<div class="answer-label">SUA FRASE</div><div class="answer-zone ${placed.length?"filled":""}" ondragover="event.preventDefault()" ondrop="drop(event,'answer')">
+${placed.length===0?'<span class="placeholder">Solte as palavras aqui...</span>':placed.map((w,i)=>`<button class="word answer-word" draggable="${!checked}" ondragstart="dragStart(event,${JSON.stringify(w)},'answer',${i})" onclick="removeWord(${i})">${w}</button>`).join("")}
+${Array.from({length:Math.max(0,c[2].length-placed.length)},()=>'<span class="empty-slot"></span>').join("")}</div>
+<div class="word-bank-title"><b>PALAVRAS DISPONÍVEIS</b><small>Arraste uma palavra para cima</small></div>
+<div class="word-bank" ondragover="event.preventDefault()" ondrop="drop(event,'pool')">${pool.map((w,i)=>`<button class="word bank-word" draggable="${!checked}" ondragstart="dragStart(event,${JSON.stringify(w)},'pool',${i})" onclick="addWord(${JSON.stringify(w)},${i})">${w}</button>`).join("")||'<span class="all-used">Todas as palavras foram usadas!</span>'}</div>
+<div class="actions"><button class="secondary" onclick="initRound()" ${checked?"disabled":""}>↶ Recomeçar</button>${!checked?`<button class="primary" onclick="verify()" ${done?"":"disabled"}>Verificar frase ✓</button>`:correct?`<button class="primary" onclick="next()">${index===24?"Ver resultado 🏆":"Próximo desafio →"}</button>`:`<button class="primary" onclick="initRound()">Tentar novamente ↻</button>`}</div>
+${message?`<div class="feedback ${correct?"success":"tryagain"}">${message}</div>`:""}<p class="tap-note">No computador, arraste. No tablet, você também pode tocar nas palavras para montar a frase.</p></article></section><footer>🌈 Aprender brincando é muito mais divertido!</footer></main>`;
+}
+initRound();
+</script>
+</body>
 </html>
